@@ -1,6 +1,7 @@
 ## TODO:
 ## - marker clusters (add & remove layer)
 ## -- does this impact any other marker layers?
+## -- updating a marker/cirle/shape's info_window value in a shiny will update the value displayed on the map
 
 
 ### Drawing deletes on change

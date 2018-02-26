@@ -463,7 +463,7 @@ function remove_vertex(vertex, polyObject) {
 }
 
 
-function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attributeValue, layer_id, layerType) {
+function add_mouseOver(map_id, mapObject, objectAttribute, attributeValue, layer_id, layerType) {
     
     //'use strict';
 
@@ -606,10 +606,16 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
  * @param attributeValue
  *          the value of the attribute
  */
-function add_infoWindow(map_id, mapObject, infoWindow, objectAttribute, attributeValue) {
+function add_infoWindow(map_id, mapObject, objectAttribute, attributeValue) {
     
     //'use strict';
 
+    //var infoWindow = new google.maps.InfoWindow();
+    
+    mapObject.infoWindow = new google.maps.InfoWindow({
+        content: mapObject.info_window
+    });
+    
     mapObject.set(objectAttribute, attributeValue);
 
     google.maps.event.addListener(mapObject, 'click', function(event){
@@ -617,11 +623,43 @@ function add_infoWindow(map_id, mapObject, infoWindow, objectAttribute, attribut
         // the listener is being bound to the mapObject. So, when the infowindow
         // contents are updated, the 'click' listener will need to see the new information
         // ref: http://stackoverflow.com/a/13504662/5977215
+        
         mapObject.setOptions({"_information": mapObject.get(objectAttribute)});
 
-        infoWindow.setContent(mapObject.get(objectAttribute));
-
-        infoWindow.setPosition(event.latLng);
-        infoWindow.open(window[map_id + 'map']);
+        //infoWindow.setContent(mapObject.get(objectAttribute));
+        
+        if (mapObject.chart_type === undefined) {
+            console.log("not chart");
+            this.infoWindow.setContent(mapObject.get(objectAttribute));
+        } else {
+            console.log("chart");
+            var c = chartObject(this);
+            this.infoWindow.setContent(c);
+        }
+        
+        this.infoWindow.setPosition(event.latLng);
+        this.infoWindow.open(window[map_id + 'map']);
+        
       });
+    
+/*    
+    marker.infowindow = new google.maps.InfoWindow({
+        content: aMarker.info_window
+    });
+
+    if(aMarker.chart_type === undefined){
+
+        google.maps.event.addListener(marker, 'click', function() {
+            this.infowindow.open(window[map_id + 'map'], this);
+        });
+
+    }else{
+
+        google.maps.event.addListener(marker, 'click', function() {
+            var c = chartObject(this);
+            this.infowindow.setContent(c);
+            this.infowindow.open(window[map_id + 'map'], this);
+        });
+    }
+*/    
 }

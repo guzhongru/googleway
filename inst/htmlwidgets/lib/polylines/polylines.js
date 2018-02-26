@@ -112,7 +112,7 @@ function set_each_line(Polyline, polyline, infoWindow, update_map_view, map_id, 
     }
 
     if (polyline.info_window) {
-        add_infoWindow(map_id, Polyline, infoWindow, '_information', polyline.info_window);
+        add_infoWindow(map_id, Polyline, '_information', polyline.info_window);
     }
 
     // need to add the listener once so it's not overwritten?
